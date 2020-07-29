@@ -15,7 +15,7 @@ OpenVPN plugin for async auth scripts
 
 %prep
 mkdir -p $RPM_BUILD_ROOT%{_libdir}/openvpn/plugins
-cp /root/openvpn-plugin-auth-script.so $RPM_BUILD_ROOT%{_libdir}/openvpn/plugins
+cp /usr/local/auth-script-openvpn/openvpn-plugin-auth-script.so $RPM_BUILD_ROOT%{_libdir}/openvpn/plugins
 
 
 %files
