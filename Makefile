@@ -12,7 +12,7 @@ build:
 sh:
 	docker-compose $(compose_config) run --rm app bash
 
-deploy: create-so create-rpm push-to-spacewalk
+deploy: create-rpm push-to-spacewalk
 
 create-so:
 	docker-compose $(compose_config) run --rm app ./bin/create_so_file.sh
