@@ -1,40 +1,27 @@
-CC ?= cc
-CFLAGS ?= -O -Wall -Wextra -Wformat-security -D_FORTIFY_SOURCE=2
-CFLAGS += -std=c99 -D_POSIX_C_SOURCE=200809L
-LDFLAGS += -fPIC -shared
+.PHONY: build sh deploy create-so create-rpm push-to-spacewalk
 
-# FreeBSD puts the openvpn header in a different location unknown to clang
-IPATH_FREEBSD = /usr/local/include/
-
-# Add OS Specific build flags
-UNAME_S := $(shell uname -s)
-ifeq ($(UNAME_S),FreeBSD)
-	# Add the include path for openvpn-plugin.h
-	CFLAGS += -I$(IPATH_FREEBSD) 
-	# Ensure the signals we need are visible
-	CFLAGS += -D_XOPEN_SOURCE=600
-	
-	# BSD uses Clang - we need to check for stack-protector-strong flag 
-	STACK_PROTECT := $(shell $(CC) --help | grep stack-protector-strong)
-	ifneq ($(filter %stack-protector-strong, $(STACK_PROTECT)),)
-		CFLAGS += -fstack-protector-strong 
-	endif
+ifeq ($(BUILD),1)
+    compose_config=-f docker-compose.yml -f docker-compose.build.yml
 else
-	CFLAGS += -fstack-protector-strong
+    compose_config=-f docker-compose.yml
 endif
 
-$(info Building for $(UNAME_S))
+build:
+	docker-compose $(compose_config) build
 
-# Output Files
-SRC 	= $(wildcard *.c)
-OUT	= $(SRC:%.c=%.so)
+sh:
+	docker-compose $(compose_config) run --rm app bash
 
-%.so: %.c
-	$(CC) $(CFLAGS) $(LDFLAGS) -o $@ $<
+deploy: create-so create-rpm push-to-spacewalk
 
-all: plugin
+create-so:
+	# TODO: ./ why does it not work?
+	docker-compose $(compose_config) run --rm app bash /bin/create_so_file.sh
 
-plugin: $(OUT)
+create-rpm:
+	# TODO: ./ why does it not work?
+	docker-compose $(compose_config) run --rm app bash /bin/create_rpm_package.sh
 
-clean:
-	rm -f *.so
+push-to-spacewalk:
+	# TODO
+	echo "Deploying to Spacewalk"
