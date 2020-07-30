@@ -8,4 +8,4 @@ RUN yum -y install epel-release && \
 
 WORKDIR /usr/local/auth-script-openvpn
 
-COPY . /
+COPY . .

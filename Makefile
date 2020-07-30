@@ -15,12 +15,10 @@ sh:
 deploy: create-so create-rpm push-to-spacewalk
 
 create-so:
-	# TODO: ./ why does it not work?
-	docker-compose $(compose_config) run --rm app bash /bin/create_so_file.sh
+	docker-compose $(compose_config) run --rm app ./bin/create_so_file.sh
 
-create-rpm:
-	# TODO: ./ why does it not work?
-	docker-compose $(compose_config) run --rm app bash /bin/create_rpm_package.sh
+create-rpm: create-so
+	docker-compose $(compose_config) run --rm app ./bin/create_rpm_package.sh
 
 push-to-spacewalk:
 	# TODO
