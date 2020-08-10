@@ -23,4 +23,4 @@ create-so:
 	docker-compose $(compose_config) run --rm app ./bin/create_so_file.sh
 
 create-rpm: create-so
-	docker-compose $(compose_config) run --rm -e VERSION=$(VERSION) app ./bin/create_rpm_package.sh
+	docker-compose $(compose_config) run --rm -e VERSION=$(BUILD_NUMBER) app ./bin/create_rpm_package.sh
