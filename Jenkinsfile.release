@@ -20,19 +20,16 @@ pipeline {
     ])
   }
 
-  triggers {
-    gitlab(triggerOnPush: true, branchFilterType: 'NameBasedFilter', includeBranchesSpec: 'master', excludeBranchesSpec: '', secretToken: env.gitlab_token)
-  }
+  properties([
+    parameters([
+      string(name: 'VERSION', defaultValue: '', description: 'Version', )
+    ])
+  ])  
 
   stages {
-    stage('Build test environment') {
-      steps {
-        sh 'BUILD=1 make build'
-      }
-    }
     stage('Deploy RPM package') {
       steps {
-        sh 'BUILD=1 make staging-deploy'
+        sh 'BUILD=1 VERSION=${params.VERSION} make deploy'
       }
     }
   }

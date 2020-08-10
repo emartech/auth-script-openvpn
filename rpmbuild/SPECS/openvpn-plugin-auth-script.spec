@@ -1,5 +1,5 @@
 Name:		openvpn-plugin-auth-script
-Version:	1.0.0
+Version:	%{_version}
 Release:	1
 Summary:	OpenVPN plugin for async auth scripts
 
