@@ -16,7 +16,7 @@ staging-deploy: create-rpm
 	curl -v --user '$(nexus_creds)' --upload-file ./rpmbuild/RPMS/x86_64/openvpn-plugin-auth-script-$(BUILD_NUMBER)-1.x86_64.rpm  https://repository.service.emarsys.net/repository/security-stage/
 
 deploy:
-	curl -v https://repository.service.emarsys.net/repository/security-stage/openvpn-plugin-auth-script-$(VERSION)-1.x86_64.rpm	
+	curl -v -o openvpn-plugin-auth-script-$(VERSION)-1.x86_64.rpm https://repository.service.emarsys.net/repository/security-stage/openvpn-plugin-auth-script-$(VERSION)-1.x86_64.rpm
 	curl -v --user '$(nexus_creds)' --upload-file ./openvpn-plugin-auth-script-$(VERSION)-1.x86_64.rpm  https://repository.service.emarsys.net/repository/security-prod/
 
 create-so:
