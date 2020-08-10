@@ -27,7 +27,7 @@ pipeline {
   stages {
     stage('Deploy RPM package') {
       steps {
-        sh 'BUILD=1 VERSION=${params.VERSION} make deploy'
+        sh "BUILD=1 VERSION=${params.VERSION} make deploy"
       }
     }
   }
