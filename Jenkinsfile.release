@@ -18,13 +18,10 @@ pipeline {
       'hudson.model.Item.Cancel:G_OIT_Operations',
       'hudson.model.Item.Read:G_OIT_Operations'
     ])
-  }
-
-  properties([
     parameters([
       string(name: 'VERSION', defaultValue: '', description: 'Version', )
     ])
-  ])  
+  }
 
   stages {
     stage('Deploy RPM package') {
