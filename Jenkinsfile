@@ -38,6 +38,9 @@ pipeline {
   }
 
   post {
+    success {
+      build(job: 'Security/OpenVPN scripts', propagate: false, wait: false, parameters: [[$class: 'BooleanParameterValue', name: 'FORCE_REBUILD', value: true]])
+    }
     fixed {
       slackSend(tokenCredentialId: 'slack-team-security-ops', color: 'good', message: "${env.JOB_NAME} - #${env.BUILD_NUMBER} Back to normal after ${currentBuild.durationString} (<${env.BUILD_URL}|Open>)")
     }
